@@ -3,22 +3,25 @@ class Creature
   
  PImage fCurrent, fNeutral, fBothered, fHappy, fAngry;
  
+ boolean isBotherable = true;
  boolean isBothered;
  int botheredMarkTime = 0;
  int botheredTimeout = 3000;
  
+ boolean isAngry;
  float angryMarkTime = 0;
+ int angryTimer = 5000;
  
  float triggerDistance1 = 100;
  float triggerDistance2 = 25;
  float movementSpeed = 0.08;
  
  PVector position, target; 
+ 
+ boolean debug = true;
   
   Creature(float x, float y)
   {
-    println("CREATURE");
-    
     position = new PVector(x, y);
     target = new PVector(random(width), random(height));
     
@@ -32,40 +35,58 @@ class Creature
     fAngry.resize(width * 2, height * 2);
     
     fCurrent = fNeutral;
-    
   }
   
   void update()
   {
     PVector mousePos = new PVector(mouseX, mouseY);
-    isBothered = position.dist(mousePos) < triggerDistance1;
     
-    if(isBothered)
-    {
-      fCurrent = fBothered;
-      botheredMarkTime = millis();
-      position = position.lerp(target, movementSpeed);
+    if(isBotherable)
+    {  
+      isBothered = position.dist(mousePos) < triggerDistance1;
       
-      if(position.dist(target) < triggerDistance2)
+      if(isBothered)
       {
-        for(int i=0; i < 500; i++)
+        fCurrent = fBothered;
+        botheredMarkTime = millis();
+        position = position.lerp(target, movementSpeed);
+        
+        if(position.dist(target) < triggerDistance2)
         {
-        target = new PVector(random(width - i, width + i), random(height - i, height + i));
+          for(int i=0; i < 500; i++)
+          {
+          target = new PVector(random(width - i, width + i), random(height - i, height + i));
+          }
         }
       }
-       if(position.x > width || position.y > height || position.x < 0 || position.y < 0)
-       {
-         angryMarkTime = millis();
-         position = new PVector(width/2 - 100, height/2 - 100);
-         fCurrent = fAngry;
-       }
-     }
-    
-    else if(!isBothered && millis() > botheredMarkTime + botheredTimeout)
-    {
+      else if(!isBothered && millis() > botheredMarkTime + botheredTimeout)
+      {
       fCurrent = fNeutral;
+      }
     }
-    println(position.x, " ", position.y);
+    
+    isAngry = isBothered && (position.x > width || position.y > height || position.x < 0|| position.y < 0);
+    
+    if(isAngry)
+    {
+      angryMarkTime = millis();
+    }
+    else if(!isAngry && millis() > angryMarkTime + angryTimer)
+    {
+     isBotherable = false;
+     fCurrent = fAngry;
+    // float x = random((width/2 - 100) - 50, (width/2 - 100) + 50);
+     position = new PVector(width/2 - 100, height/2 - 100);
+    }
+    
+ 
+
+  
+    if(debug)
+    {
+     //println(position.x + " " + position.y);
+     //println(millis());
+    }
   }
   
   void draw()
@@ -74,6 +95,20 @@ class Creature
     
     image(fCurrent, position.x, position.y);
   }
+  /*
+  void isAngry()
+  {
+    isBothered = false;
+    angryMarkTime = millis();
+    
+    if(angryMarkTime > 10000)
+    {
+      println("YES");
+    position = new PVector(width/2 - 100, height/2 - 100);
+    fCurrent = fAngry;
+    }
+  }
+  */
   
   void run()
   {
