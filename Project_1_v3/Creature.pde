@@ -75,9 +75,22 @@ class Creature
     {
      isBotherable = false;
      fCurrent = fAngry;
-    // float x = random((width/2 - 100) - 50, (width/2 - 100) + 50);
-     position = new PVector(width/2 - 100, height/2 - 100);
+     
+     float x = random((width/2 - 100) - 50, (width/2 - 100) + 50);
+     float y = random((height/2 - 100) - 50, (height/2 - 100) + 50);
+     
+     for(int j=0; j < 10; j++)
+     {
+       float x2 = x + j;
+       float y2 = y + j * 10;
+       
+       position = new PVector(x2, y2);
+     }
     }
+       
+
+     //position = new PVector(width/2 - 100, height/2 - 100);
+    
     
  
 
