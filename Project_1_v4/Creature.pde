@@ -103,14 +103,13 @@ class Creature
         aliveTarget4 = true;
         aliveTarget3 = false;
       }
-      if(position.dist(target4) < triggerDistance2 && aliveTarget4)
+      if(position.dist(target4) < triggerDistance3 && aliveTarget4)
       {
         aliveTarget5 = true;
         aliveTarget4 = false;
       }
-      if(position.dist(target5) < triggerDistance2 && aliveTarget5)
+      if(position.dist(target5) < triggerDistance3 && aliveTarget5)
       {
-        noTint();
         isBotherable = true;
         isEnraged = false;
         scatterBot = false;
@@ -168,6 +167,7 @@ class Creature
       }
       if(!isBothered && millis() > botheredMarkTime + botheredTimeout)
       {
+        noTint();
         fCurrent = fNeutral;
         target = new PVector(random(width), random(height)); // Won't save previous target. Will never choose target off window first
         counter = 0;
