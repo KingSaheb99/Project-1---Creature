@@ -8,9 +8,9 @@ ArrayList<Chibi> chibis = new ArrayList<Chibi>();
 PVector mousePos;
 int safeDistance = 300;
 
-PImage bg;
+PImage bg, cursorImage;
 
-SoundFile eat, bothered, scared, death, chibiSound, bgm;
+SoundFile eat, bothered, enraged, puffing, scared, death, sick, chibiSound, bgm;
 
 void setup()
 {
@@ -22,14 +22,21 @@ void setup()
   image(bg, 0, 0, width, height);
   bg.resize(width, height);
   
+  cursorImage = loadImage("cursor.png");
+  image(cursorImage, width + 500, height + 500); // cursor starts off screen so cursor fist displays when user interacts. Also, creature will never start bothered
+  
   bgm = new SoundFile(this, "neneBGM.wav");
   bgm.loop();
   bgm.amp(0.25);
   
   eat = new SoundFile(this, "eat.wav");
+  sick = new SoundFile(this, "sick.wav");
   
   bothered = new SoundFile(this, "bothered.wav");
   bothered.loop();
+  
+  enraged = new SoundFile(this, "enraged.wav");
+  puffing = new SoundFile(this, "puffing.wav");
   
   scared = new SoundFile(this, "wormScared.wav");
   death = new SoundFile(this, "wormDeath.wav");
@@ -67,6 +74,9 @@ void draw()
  }
 
   creature.run();
+  
+  imageMode(CORNER);
+  cursor(cursorImage);
 }
 
 void keyPressed() //Exit program on ESC
