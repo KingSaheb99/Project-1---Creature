@@ -32,6 +32,7 @@ Regarding the Creature:
 - Eating worms will increase the size of the creature
 - If the creature eats too many worms, he will become bloated and sick
 - When sick, the creature will "poop" out chibis and shake
+- "Pooping" out all the chibis will return the creature to being healthy
 
 Regarding the Worms:
 
