@@ -14,7 +14,7 @@ class Food
   {
    position = new PVector(x, y);
    
-   sizeValue = int(random(-50, 50)); //worms come in different sizes
+   sizeValue = int(random(-50, 50)); // worms come in different sizes
    
    foodFine = loadImage("foodNormal.png");
    foodFine.resize((foodFine.width/4) + sizeValue, (foodFine.height/4) + sizeValue);
@@ -34,7 +34,7 @@ class Food
     {
      wasScared = true; 
     }
-    if(creature.position.dist(position) < scaredDistance || creature.isBothered == true || creature.isEnraged == true) //worms will face the creature and get scared if creature is close, angry, or enraged
+    if(creature.position.dist(position) < scaredDistance || (creature.isBothered && millis() > creature.botheredMarkTime + creature.botheredTimeout) == true || creature.isEnraged == true) //worms will face the creature and get scared if creature is close, angry, or enraged. Worms only scream once when creature enters scared distance, then again if he leves and comes back
     {
       
       if(!scared.isPlaying() && millis() > playMarkTime + audioTimeout && wasScared)
